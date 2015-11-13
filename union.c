@@ -23,6 +23,25 @@ union {
 	} s;
 } unistruc;
 
+typedef long Align;
+union header {
+	struct {
+		union header *ptr;
+		unsigned size;
+	} s;
+	Align x;
+};
+
+typedef union header Header;
+
+struct s {
+	union header *ptr;
+	unsigned size;
+};
+
+typedef struct s S;
+
+
 int main(int argc, char **argv)
 {
 	simple.c = 'a';
@@ -34,4 +53,9 @@ int main(int argc, char **argv)
 	unistruc.c = 'a';
 	printf("sizeof(unistruc): %zu\n", sizeof(unistruc));
 	assert((sizeof(long) + sizeof(long)) == sizeof(unistruc));
+	printf("sizeof(Header): %zu\n", sizeof(Header));
+	printf("sizeof(S): %zu\n", sizeof(S));
+	union header *ptr;
+	printf("sizeof(ptr): %zu\n", sizeof(ptr));
+
 }
